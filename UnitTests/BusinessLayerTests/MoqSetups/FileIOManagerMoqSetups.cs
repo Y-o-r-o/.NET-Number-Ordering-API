@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using System.Net;
 using Core;
 using Core.Exceptions;
@@ -40,6 +39,15 @@ public static class FileIOManagerMoqSetups
         mockRepository
            .Setup(m => m.ReadStringAsync())
            .ThrowsAsync(new HttpResponseException(HttpStatusCode.InternalServerError, "The file could not be read. Try to check if file or path exist: _____"));
+
+        return mockRepository;
+    }
+
+    public static Mock<IFileIOManager> Setup_ReadString_ReturnNull(this Mock<IFileIOManager> mockRepository)
+    {
+        mockRepository
+           .Setup(m => m.ReadStringAsync())
+           .ReturnsAsync((string)null);
 
         return mockRepository;
     }

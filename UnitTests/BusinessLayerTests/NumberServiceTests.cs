@@ -1,14 +1,16 @@
 using BusinessLayer.BusinessServices;
+using BusinessLayer.Enums;
 using Core;
 using Core.Exceptions;
 using FluentAssertions;
 using Moq;
 using UnitTests.BusinessLayerTests.MoqSetups;
+using static BusinessLayer.BusinessServices.NumberService;
 
 namespace UnitTests.BusinessLayerTests;
 
 [TestFixture]
-public class RoomServicesTests
+public class NumberServicesTests
 {
     private MockRepository mockRepository;
 
@@ -108,6 +110,22 @@ public class RoomServicesTests
     }
 
     [Test]
+    public async Task CreateNumbersAsync_GiveNonExistingSortingAlgorithm_ThrowsThereIsNoSortingAlgorithm()
+    {
+        // Arrange
+        _mockFileIOManager
+           .Setup_WriteString_ThrowsFileCouldNotBeWritten();
+
+        var numberService = InitializeNumberServices();
+
+        // Act
+        var action = () => numberService.CreateNumbersAsync("1 2 3", (SortingAlgorithm)999);
+
+        // Assert
+        await action.Should().ThrowAsync<HttpResponseException>().WithMessage("There is no sorting algorithm parameters for enum: 999.");
+    }
+
+    [Test]
     public async Task GetNumbersAsync_DoesntThrow()
     {
         // Arrange
@@ -137,5 +155,51 @@ public class RoomServicesTests
 
         // Assert
         await action.Should().ThrowAsync<HttpResponseException>().WithMessage("The file could not be read. Try to check if file or path exist: _____");
+    }
+
+    [Test]
+    public async Task GetNumbersAsync_ThrowsFileNotFound()
+    {
+        // Arrange
+        _mockFileIOManager
+           .Setup_ReadString_ReturnNull();
+
+        var numberService = InitializeNumberServices();
+
+        // Act
+        var action = () => numberService.GetNumbersAsync();
+
+        // Assert
+        await action.Should().ThrowAsync<HttpResponseException>().WithMessage("File containing numbers not found.");
+    }
+
+    [Test]
+    [TestCase("1")]
+    [TestCase("1 2 3")]
+    [TestCase("1 3 2")]
+    [TestCase("1 3 3")]
+    [TestCase("1 30000 3")]
+    public async Task GetNumbersSortingAlgorithmsTimesAsync_DoesntThrow(string numbers)
+    {
+        // Arrange
+        var numberService = InitializeNumberServices();
+
+        // Act
+        var action = () => numberService.GetNumbersSortingAlgorithmsTimesAsync(numbers);
+
+        // Assert
+        await action.Should().NotThrowAsync();
+    }
+
+    public void GetNumbersSortingAlgorithmsTimesAsync_GiveInvalidNumbers_ThrowsValidationException(string givenNumbers)
+    {
+        // Arrange
+        var numberService = InitializeNumberServices();
+
+        // Act
+        var action = () => numberService.GetNumbersSortingAlgorithmsTimesAsync("01");
+
+        // Assert
+        var ex = action.Should().ThrowAsync<ValidationException>();
     }
 }
