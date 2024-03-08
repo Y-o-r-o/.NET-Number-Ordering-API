@@ -35,7 +35,7 @@ public class FileIOManager : IFileIOManager
     {
         try
         {
-            using var streamReader = new StreamReader("TestFile.txt");
+            using var streamReader = new StreamReader(_file);
 
             return await streamReader.ReadToEndAsync();
         }
