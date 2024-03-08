@@ -48,7 +48,7 @@ public static class ApplicationServiceExtensions
 
         if (string.IsNullOrWhiteSpace(filePath))
         {
-            filePath = Directory.GetParent(Environment.CurrentDirectory)!.Parent!.Parent!.FullName;
+            filePath = Directory.GetParent(Environment.CurrentDirectory)!.FullName;
         }
 
         if (string.IsNullOrWhiteSpace(fileName))
