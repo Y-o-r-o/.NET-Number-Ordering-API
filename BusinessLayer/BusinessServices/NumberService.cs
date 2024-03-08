@@ -20,9 +20,9 @@ internal class NumberService(IFileIOManager fileIOManager) : INumberService
 
         var sortingService = GetSortingService(sortingAlgorithm);
 
-        var intNumbers = numbers.ConvertToIntList();
+        var doubleNumbers = numbers.ConvertToDoubleList();
 
-        var sortedNumbers = sortingService.Sort(intNumbers).ConvertToString();
+        var sortedNumbers = sortingService.Sort(doubleNumbers).ConvertToString();
 
         await _fileIOManager.WriteStringAsync(sortedNumbers);
 
@@ -53,11 +53,11 @@ internal class NumberService(IFileIOManager fileIOManager) : INumberService
     public async Task<string> GetNumbersSortingAlgorithmTimeAsync(string numbers, SortingAlgorithm sortingAlgorithm)
     {
         var sortingService = GetSortingService(sortingAlgorithm);
-        var intNumbers = numbers.ConvertToIntList();
+        var doubleNumbers = numbers.ConvertToDoubleList();
 
         var stopwatch = Stopwatch.StartNew();
 
-        sortingService.Sort(intNumbers);
+        sortingService.Sort(doubleNumbers);
 
         stopwatch.Stop();
         return await Task.FromResult($"{sortingAlgorithm} algorithm took {stopwatch.ElapsedTicks} ticks.");

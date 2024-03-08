@@ -3,9 +3,9 @@ using Core.Extensions;
 
 internal class BubbleSortService() : ISortingService
 {
-    public List<int> Sort(List<int> numbers)
+    public List<double> Sort(List<double> numbers)
     {
-        var swapped = false;
+        bool swapped;
 
         do
         {

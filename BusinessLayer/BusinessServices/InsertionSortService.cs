@@ -3,7 +3,7 @@ using Core.Extensions;
 
 internal class InsertionSortService : ISortingService
 {
-    public List<int> Sort(List<int> numbers)
+    public List<double> Sort(List<double> numbers)
     {
         for(var i = 1; i < numbers.Count; i++)
         {

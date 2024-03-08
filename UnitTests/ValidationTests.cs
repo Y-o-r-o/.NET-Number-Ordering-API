@@ -102,12 +102,15 @@ public class ValidatorsTests
 
     [Test]
     [TestCase("1")]
+    [TestCase("1.1")]
+    [TestCase("1.1 1.1 1.1")]
+    [TestCase("1.2345678901234568")]
     [TestCase("-1")]
     [TestCase("1 2")]
     [TestCase("1 1 1")]
     [TestCase("1 2 3 4 5 6 7 8 9")]
     [TestCase("1 9 99 100 123456789")]
-    [TestCase("1 -9 99 -100 -123456789")]
+    [TestCase("1 -9 9.9 -100 -123.456789")]
     public void Validate_NumbersLine_DoesntThrow(string numbers)
     {
         // Arrange
@@ -123,7 +126,6 @@ public class ValidatorsTests
     [TestCase(" ")]
     [TestCase(" 1")]
     [TestCase("1 ")]
-    [TestCase("1.1")]
     [TestCase("1,1")]
     [TestCase("a")]
     [TestCase("1 a 2")]

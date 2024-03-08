@@ -29,8 +29,8 @@ public static class StringExtensions
         ValidationException.ThrowIfPropertyInvalid(stringName, errors);
     }
 
-    public static List<int> ConvertToIntList(this string whiteSpaceSeparatedIntString)
+    public static List<double> ConvertToDoubleList(this string whiteSpaceSeparatedDoubleString)
     {
-        return whiteSpaceSeparatedIntString.Equals("") ? [] : whiteSpaceSeparatedIntString.Split(' ').Select(Int32.Parse).ToList() ?? [];
+        return string.IsNullOrEmpty(whiteSpaceSeparatedDoubleString) ? [] : whiteSpaceSeparatedDoubleString.Split(' ').Select(Double.Parse).ToList();
     }
 }

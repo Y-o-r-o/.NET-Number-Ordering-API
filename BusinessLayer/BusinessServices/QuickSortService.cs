@@ -3,13 +3,13 @@ using Core.Extensions;
 
 internal class QuickSortService : ISortingService
 {
-    public List<int> Sort(List<int> numbers)
+    public List<double> Sort(List<double> numbers)
     {
         QuickSort(numbers, 0, numbers.Count - 1);
         return numbers;
     }
 
-    private static void QuickSort(List<int> numbers, int low, int high)
+    private static void QuickSort(List<double> numbers, int low, int high)
     {
         if (low < high)
         {
@@ -19,7 +19,7 @@ internal class QuickSortService : ISortingService
         }
     }
 
-    private static int Partition(List<int> numbers, int low, int high)
+    private static int Partition(List<double> numbers, int low, int high)
     {
         var pivot = numbers[high];
         var i = low;

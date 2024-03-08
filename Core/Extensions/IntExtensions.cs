@@ -1,9 +1,9 @@
 namespace Core.Extensions;
 
-public static class IntExtensions
+public static class DoubleExtensions
 {
-    public static string ConvertToString(this IEnumerable<int> integers)
+    public static string ConvertToString(this IEnumerable<double> doubles)
     {
-        return string.Join(" ", integers);
+        return string.Join(" ", doubles);
     }
 }
