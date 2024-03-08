@@ -4,10 +4,8 @@ namespace BusinessLayer.DTOs;
 
 public class ValidationHttpExceptionDTO : HttpExceptionDTO
 {
-    public ValidationHttpExceptionDTO(KeyValuePair<string, IEnumerable<string>> propertyErrors, AdditionalDetailsDTO? details = null)
+    public ValidationHttpExceptionDTO()
     {
-        PropertyErrors = propertyErrors;
-        Details = details;
         StatusCode = HttpStatusCode.BadRequest;
     }
 
