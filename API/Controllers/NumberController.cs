@@ -44,7 +44,6 @@ public sealed class NumberController(INumberService numberService) : ControllerB
     /// <response code="500">Returns error details.</response>
     [ProducesResponseType(typeof(HttpExceptionDTO), 500)]
     [ProducesResponseType(typeof(string), 200)]
-    [ProducesResponseType(typeof(string), 200)]
     [HttpGet("GetNumbersSortingAlgorithmsTimes")]
     public async Task<IActionResult> GetNumbersSortingAlgorithmsTimesAsync(string numbers)
     {

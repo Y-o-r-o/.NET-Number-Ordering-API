@@ -5,7 +5,6 @@ using Core.Exceptions;
 using FluentAssertions;
 using Moq;
 using UnitTests.BusinessLayerTests.MoqSetups;
-using static BusinessLayer.BusinessServices.NumberService;
 
 namespace UnitTests.BusinessLayerTests;
 
@@ -191,7 +190,7 @@ public class NumberServicesTests
         await action.Should().NotThrowAsync();
     }
 
-    public void GetNumbersSortingAlgorithmsTimesAsync_GiveInvalidNumbers_ThrowsValidationException(string givenNumbers)
+    public void GetNumbersSortingAlgorithmsTimesAsync_GiveInvalidNumbers_ThrowsValidationException()
     {
         // Arrange
         var numberService = InitializeNumberServices();
