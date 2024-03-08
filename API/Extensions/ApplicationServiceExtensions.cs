@@ -3,6 +3,7 @@ using Core;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using BusinessLayer.DependencyInjections;
+using System.Text.Json.Serialization;
 
 namespace API.Extensions;
 
@@ -10,7 +11,8 @@ public static class ApplicationServiceExtensions
 {
     public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration config)
     {
-        services.AddControllers();
+        services.AddControllers()
+                .AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
         services.AddEndpointsApiExplorer()
                 .AddSwagger()
