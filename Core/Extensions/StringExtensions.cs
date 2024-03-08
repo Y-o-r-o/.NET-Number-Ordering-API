@@ -11,7 +11,7 @@ public static class StringExtensions
     {
         var errors = new List<string>();
 
-        if (!Constants.PROPERTY_VALIDATIONS.TryGetValue(stringIs, out PropertyValidationConfiguration? validationParameters))
+        if (!Constants.PropertyValidations.TryGetValue(stringIs, out PropertyValidationConfiguration? validationParameters))
         {
             throw new HttpResponseException(HttpStatusCode.InternalServerError, $"There is no property validation parameters for enum: {stringIs}.");
         };
@@ -27,5 +27,10 @@ public static class StringExtensions
         }
 
         ValidationException.ThrowIfPropertyInvalid(stringName, errors);
+    }
+
+    public static List<int> ConvertToIntList(this string whiteSpaceSeparatedIntString)
+    {
+        return whiteSpaceSeparatedIntString.Equals("") ? [] : whiteSpaceSeparatedIntString.Split(' ').Select(Int32.Parse).ToList() ?? [];
     }
 }

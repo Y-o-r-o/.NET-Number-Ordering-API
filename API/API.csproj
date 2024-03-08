@@ -8,6 +8,7 @@
 
     <NoWarn>$(NoWarn);1591</NoWarn>
     <NoWarn>$(NoWarn);CS8618</NoWarn>
+    <NoWarn>$(NoWarn);CS1573</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
