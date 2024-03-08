@@ -24,6 +24,11 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
             _logger.LogError(ex, ex.Response.ToString());
             await HandleExceptionAsync(context, ex, ex.Response.StatusCode);
         }
+        catch (ValidationException ex)
+        {
+            _logger.LogError(ex, ex.Response.ToString());
+            await HandleValidationExceptionAsync(context, ex);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
@@ -40,6 +45,22 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
         {
             StatusCode = httpStatusCode,
             Message = exception.Message,
+            Details = _env.IsDevelopment() ? exception.AnalyzeException() : null
+        };
+
+        var json = JsonSerializer.Serialize(response, options);
+
+        await context.Response.WriteAsync(json);
+    }
+
+    private async Task HandleValidationExceptionAsync(HttpContext context, ValidationException exception)
+    {
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = 400;
+
+        var response = new ValidationHttpExceptionDTO()
+        {
+            PropertyErrors = exception.VariableErrors,
             Details = _env.IsDevelopment() ? exception.AnalyzeException() : null
         };
 
