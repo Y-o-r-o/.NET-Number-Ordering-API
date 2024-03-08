@@ -41,24 +41,26 @@ internal class NumberService(IFileIOManager fileIOManager) : INumberService
         var tasks = new List<Task<string>>();
         foreach (var sortingAlgorithm in (SortingAlgorithm[])Enum.GetValues(typeof(SortingAlgorithm)))
         {
-            var task = Task.Run(() =>
-            {
-                var sortingService = GetSortingService(sortingAlgorithm);
-                var intNumbers = numbers.ConvertToIntList();
-
-                var stopwatch = Stopwatch.StartNew();
-
-                sortingService.Sort(intNumbers);
-
-                stopwatch.Stop();
-                return $"{sortingAlgorithm} algorithm took {stopwatch.ElapsedTicks} ticks.";
-            });
+            var task = GetNumbersSortingAlgorithmTimeAsync(numbers, sortingAlgorithm);
 
             tasks.Add(task);
         }
-        
+
         var results = await Task.WhenAll(tasks);
         return results.ToList();
+    }
+
+    public async Task<string> GetNumbersSortingAlgorithmTimeAsync(string numbers, SortingAlgorithm sortingAlgorithm)
+    {
+        var sortingService = GetSortingService(sortingAlgorithm);
+        var intNumbers = numbers.ConvertToIntList();
+
+        var stopwatch = Stopwatch.StartNew();
+
+        sortingService.Sort(intNumbers);
+
+        stopwatch.Stop();
+        return await Task.FromResult($"{sortingAlgorithm} algorithm took {stopwatch.ElapsedTicks} ticks.");
     }
 
     private static ISortingService GetSortingService(SortingAlgorithm sortingAlgorithm)
